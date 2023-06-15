@@ -86,7 +86,12 @@ def generate_similarity_matrix():
             social_scores[i, j] += 0.5 * (item_seller in following) # + 0.5 * (item_id in favorites)
 
             # Compute favorites score
-            if item_id in favorites:
+            #print(f"item id is: {item_id}!!!!!!!!!!")
+            #print(f"favorites are: {favorites}!!!!!!!!!!")
+            item_id_str = str(item_id)
+
+            if item_id_str  in favorites:
+                #print("inside favoriets!")
                 # Find the index of this item in items dataframe
                 fav_index = items_df.index[items_df['_id'] == item_id][0]
                 # Get top 5 similar items
