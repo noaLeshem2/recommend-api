@@ -64,17 +64,8 @@ def recommend():
     # Convert to DataFrame for easier manipulation
     items_df = pd.DataFrame(items)
     users_df = pd.DataFrame(users)
-    print(" in inside recommend")
-
 
     user_id = request.json['userId']
-    #item_type = request.json['itemType']  # This is new
-    # num_recommendations = request.json.get('num', len(items_df))  # Changed to recommend all items
-
-    print(items_df.columns)
-
-    # Filter items by type
-    # items_df = items_df[items_df['category'] == item_type]  # Assuming 'type' is the column containing item type
 
     # Find the row corresponding to this user
     user_row = users_df[users_df['username'] == user_id].index[0]
@@ -87,19 +78,6 @@ def recommend():
 
     # Get their IDs
     ids = [str(id) for id in items_df.iloc[similar_items]['_id'].tolist()]
-
-    # Compute the user-item similarity vector for each item
-    #similarity_vectors = [
-    #    similarity_matrix[user_row] * similarity_matrix[:, items_df[items_df['_id'] == item_id].index[0]] for item_id in
-    #    items_df['_id'].tolist()]
-
-
-    # Get the most similar items
-    #similar_items = heapq.nlargest(num_recommendations, range(len(similarity_vectors)),
-    #                               key=similarity_vectors.__getitem__)
-
-    # Get their IDs
-    #ids = items_df.iloc[similar_items]['_id'].tolist()
 
     return {'ids': ids}
 

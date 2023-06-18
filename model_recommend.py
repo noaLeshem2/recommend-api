@@ -70,28 +70,15 @@ def generate_similarity_matrix():
             else:
                 location_scores[i, j] = 0.2  # or any default value you want to set
 
-            #location_scores[i, j] = city_similarity.loc[user_city, item_location]
-
-            # Compute size score
-            # size_difference = abs(int(user_size) - int(item_size))
             # Compute size score
             size_difference = abs(int(user_size) - int(item_size))
             size_scores[i, j] = 1 / (size_difference / 2 + 1)
-            #size_scores[i, j] = 1 - (size_difference / 2) if size_difference <= 2 else 1 / size_difference
 
-            # Compute social score
-            # Give high score if user is following the item's seller
-
-            # max you can get is 2.
+            # max you can get is 0.5.
             social_scores[i, j] += 0.5 * (item_seller in following) # + 0.5 * (item_id in favorites)
-
-            # Compute favorites score
-            #print(f"item id is: {item_id}!!!!!!!!!!")
-            #print(f"favorites are: {favorites}!!!!!!!!!!")
             item_id_str = str(item_id)
 
-            if item_id_str  in favorites:
-                #print("inside favoriets!")
+            if item_id_str in favorites:
                 # Find the index of this item in items dataframe
                 fav_index = items_df.index[items_df['_id'] == item_id][0]
                 # Get top 5 similar items
@@ -99,7 +86,6 @@ def generate_similarity_matrix():
                 favorites_scores[i, similar_item_indices] += 0.2
 
     # Normalize the scores to the same scale
-
     # similarity_matrix = size_scores + social_scores + favorites_scores + location_scores
     scaler = MinMaxScaler()
     location_scores = scaler.fit_transform(location_scores)
